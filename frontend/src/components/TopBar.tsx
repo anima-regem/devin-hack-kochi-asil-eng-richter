@@ -14,10 +14,10 @@ interface Props {
   cityReady: boolean
 }
 
-const VIEWS: { id: View; label: string; key: string }[] = [
-  { id: 'graph', label: 'DEPENDENCY GRAPH', key: '1' },
-  { id: 'risk', label: 'RISK MAP', key: '2' },
-  { id: 'city', label: 'CODE CITY', key: '3' },
+const VIEWS: { id: View; label: string; short: string; key: string }[] = [
+  { id: 'graph', label: 'DEPENDENCY GRAPH', short: 'GRAPH', key: '1' },
+  { id: 'risk', label: 'RISK MAP', short: 'RISK', key: '2' },
+  { id: 'city', label: 'CODE CITY', short: 'CITY', key: '3' },
 ]
 
 const STAGES: Job['stage'][] = ['queued', 'clone', 'history', 'score', 'done']
@@ -75,7 +75,8 @@ export function TopBar({ repos, slug, onRepo, view, onView, onAnalyzed, cityRead
             disabled={v.id === 'city' && !cityReady}
           >
             <kbd>{v.key}</kbd>
-            {v.label}
+            <span className="long">{v.label}</span>
+            <span className="short">{v.short}</span>
           </button>
         ))}
       </nav>

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js'
@@ -147,9 +147,13 @@ export function CityView({ model, snapshots, time, selected, highlight, onSelect
   const host = useRef<HTMLDivElement>(null)
   const [tip, setTip] = useState<{ i: number; x: number; y: number } | null>(null)
   const props = useRef({ snapshots, time, selected, highlight })
-  props.current = { snapshots, time, selected, highlight }
-  const selT0 = useRef({ sel: selected, t: performance.now() })
-  if (selT0.current.sel !== selected) selT0.current = { sel: selected, t: performance.now() }
+  const selT0 = useRef({ t: 0 })
+  useLayoutEffect(() => {
+    props.current = { snapshots, time, selected, highlight }
+  })
+  useLayoutEffect(() => {
+    selT0.current.t = performance.now()
+  }, [selected])
 
   useEffect(() => {
     const el = host.current!

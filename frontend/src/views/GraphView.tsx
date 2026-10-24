@@ -1,6 +1,6 @@
 import { forceCollide, forceLink, forceManyBody, forceSimulation, forceX, forceY } from 'd3-force'
 import type { SimulationLinkDatum, SimulationNodeDatum } from 'd3-force'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { fmtM, heat, shortName } from '../lib/heat'
 import type { RiskModel } from '../lib/types'
 
@@ -95,18 +95,17 @@ export function GraphView({ model, mode, selected, highlight, layers, onSelect }
 
   // Mirror props into refs so the RAF loop never re-subscribes.
   const props = useRef({ mode, selected, highlight, layers })
-  props.current = { mode, selected, highlight, layers }
-  const anim = useRef({ selT0: 0, lastSel: null as number | null, modeT0: 0, lastMode: mode, hlT0: 0 })
-  if (anim.current.lastSel !== selected) {
-    anim.current.lastSel = selected
+  const anim = useRef({ selT0: 0, modeT0: 0, hlT0: 0 })
+  useLayoutEffect(() => {
+    props.current = { mode, selected, highlight, layers }
+  })
+  useLayoutEffect(() => {
     anim.current.selT0 = performance.now()
-  }
-  if (anim.current.lastMode !== mode) {
-    anim.current.lastMode = mode
+  }, [selected])
+  useLayoutEffect(() => {
     anim.current.modeT0 = performance.now()
-  }
-
-  useEffect(() => {
+  }, [mode])
+  useLayoutEffect(() => {
     anim.current.hlT0 = performance.now()
   }, [highlight])
 

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 
 // A live seismograph trace. `level` (0..1) sets the tremor amplitude; the trace
 // scrolls continuously so the instrument always feels switched on.
@@ -17,9 +17,11 @@ export function Seismo({
 }) {
   const ref = useRef<HTMLCanvasElement>(null)
   const lvl = useRef(level)
-  lvl.current = level
   const col = useRef(color)
-  col.current = color
+  useLayoutEffect(() => {
+    lvl.current = level
+    col.current = color
+  })
 
   useEffect(() => {
     const cv = ref.current!

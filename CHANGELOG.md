@@ -4,6 +4,13 @@ Record each meaningful project change during the event, newest first. Update thi
 
 ## Event build log
 
+## 2026-10-24T21:55:51+05:30 — Design pass: laptop layout + render-safe refs
+
+- Changed: Responsive tier at <=1480px (narrower rails, short view-tab labels, repo owners hidden, no-wrap tabs/labels) in `frontend/src/styles/app.css` + `TopBar.tsx`. Moved ref syncing out of render into layout effects (`GraphView.tsx`, `CityView.tsx`, `Seismo.tsx`) and the repo-switch state reset from an effect into an `openRepo` handler (`App.tsx`).
+- Why: At 1280x800 the top bar wrapped and the Analyze button was cut off. Lint flagged ref writes and impure calls during render, which React does not guarantee to behave.
+- Validation: `npm run build` succeeds; `oxlint src` 0 warnings; `tsc -b` clean. Playwright: boot screen, 1280x800 layout with ask error state, cascade and city regression shots; no page errors.
+- Limitations: JS bundle is 865 kB (235 kB gzip), mostly three.js; not code-split.
+
 ## 2026-10-24T21:53:43+05:30 — Time-travel: snapshots + scrubber
 
 - Changed: Added `backend/richter/snapshots.py` + `richter.cli snapshots <url>`: 28 sampled commits, sparse (`*.py`) blobless worktree checkout per sample, import graph + git stats on the history prefix, scored by the frozen engine; historical paths mapped to today's files via a shared `gitstats.FileIdentity` (refactored out of `compute`). `risk.score` gained an optional `human_ref` used only by snapshots so the human axis is relative to the present-day maximum. Frontend `Timeline.tsx`: seismogram of commit/fix activity, draggable needle, eased 14 s playback, NOW reset; city towers interpolate between frames, unborn files are flat, and the skyline scales with file count. Committed snapshots for rich, fastapi, black.

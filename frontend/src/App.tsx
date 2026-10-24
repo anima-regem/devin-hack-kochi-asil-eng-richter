@@ -41,10 +41,6 @@ export default function App() {
   useEffect(() => {
     if (!slug) return
     let live = true
-    setSelected(null)
-    setHighlight(new Set())
-    setTime(null)
-    setSnapshots(null)
     loadSnapshots(slug).then((s) => live && setSnapshots(s))
     loadModel(slug)
       .then((m) => {
@@ -66,6 +62,13 @@ export default function App() {
   }, [slug])
 
   const select = useCallback((i: number | null) => setSelected(i), [])
+  const openRepo = useCallback((s: string) => {
+    setSlug(s)
+    setSelected(null)
+    setHighlight(new Set())
+    setTime(null)
+    setSnapshots(null)
+  }, [])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -84,7 +87,7 @@ export default function App() {
 
   const onAnalyzed = async (s: string) => {
     setRepos(await listRepos())
-    setSlug(s)
+    openRepo(s)
   }
 
   return (
@@ -92,7 +95,7 @@ export default function App() {
       <TopBar
         repos={repos}
         slug={slug}
-        onRepo={setSlug}
+        onRepo={openRepo}
         view={view}
         onView={setView}
         onAnalyzed={onAnalyzed}
