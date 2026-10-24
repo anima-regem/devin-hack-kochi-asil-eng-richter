@@ -13,6 +13,7 @@ No participant AI usage has been recorded yet. Replace the placeholder row as yo
 | 2026-10-24T21:28+05:30 | Claude Code (Claude Opus 5.5) | Stage 3: risk engine + JSON model | Wrote `risk.py`, `pipeline.py`, `cli.py`, tests; ran the sanity check | Pending participant review | pytest 8 passed; CLI analyze fastapi in 2.3 s |
 | 2026-10-24T21:30+05:30 | Claude Code (Claude Opus 5.5) | Stage 4: agent actions + API | Wrote `agent.py`, `api.py`, agent tests | Pending participant review | pytest 10 passed; endpoints exercised with curl |
 | 2026-10-24T21:43+05:30 | Claude Code (Claude Opus 5.5) | Stage 5a: control-room UI + 2D graph with blast-radius cascade | Wrote the frontend (views, components, styles) and iterated on layout/labels from screenshots | Pending participant review | tsc clean; Playwright screenshots reviewed, no page errors |
+| 2026-10-24T21:49+05:30 | Claude Code (Claude Opus 5.5) | Stage 5b: 3D code city | Wrote `CityView.tsx` and iterated lighting/fog/camera from screenshots | Pending participant review | tsc clean; screenshots reviewed, no errors |
 
 ## Template preparation
 

@@ -4,16 +4,20 @@ import { BootScreen } from './components/BootScreen'
 import { Inspector } from './components/Inspector'
 import { LeftRail } from './components/LeftRail'
 import { TopBar } from './components/TopBar'
-import { listRepos, loadModel } from './lib/data'
-import type { RepoEntry, RiskModel, View } from './lib/types'
+import { listRepos, loadModel, loadSnapshots } from './lib/data'
+import type { RepoEntry, RiskModel, Snapshots, View } from './lib/types'
+import { CityView } from './views/CityView'
 import { GraphView } from './views/GraphView'
 
 const PREFERRED = 'textualize__rich'
+const VIEW_NAME: Record<View, string> = { graph: 'DEPENDENCY GRAPH', risk: 'RISK MAP', city: 'CODE CITY' }
 
 export default function App() {
   const [repos, setRepos] = useState<RepoEntry[]>([])
   const [slug, setSlug] = useState<string | null>(null)
   const [model, setModel] = useState<RiskModel | null>(null)
+  const [snapshots, setSnapshots] = useState<Snapshots | null>(null)
+  const [time, setTime] = useState<number | null>(null)
   const [view, setView] = useState<View>('graph')
   const [selected, setSelected] = useState<number | null>(null)
   const [highlight, setHighlight] = useState<Set<number>>(new Set())
@@ -38,6 +42,9 @@ export default function App() {
     let live = true
     setSelected(null)
     setHighlight(new Set())
+    setTime(null)
+    setSnapshots(null)
+    loadSnapshots(slug).then((s) => live && setSnapshots(s))
     loadModel(slug)
       .then((m) => {
         if (!live) return
@@ -68,6 +75,7 @@ export default function App() {
       }
       if (e.key === '1') setView('graph')
       if (e.key === '2') setView('risk')
+      if (e.key === '3') setView('city')
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
@@ -87,27 +95,50 @@ export default function App() {
         view={view}
         onView={setView}
         onAnalyzed={onAnalyzed}
-        cityReady={false}
+        cityReady
       />
       {model && slug && (
         <>
           <LeftRail model={model} selected={selected} onSelect={select} layers={layers} setLayers={setLayers} />
           <main className="stage" key={slug}>
             <div className="hud hud-tl">
-              <span className="hud-view">{view === 'risk' ? 'RISK MAP' : 'DEPENDENCY GRAPH'}</span>
+              <span className="hud-view">{VIEW_NAME[view]}</span>
               <span>{model.summary.files} FILES</span>
-              <span>{model.summary.edges} EDGES</span>
-              <span>{view === 'risk' ? 'COLOR = MAGNITUDE' : 'SIZE = IMPORTANCE'}</span>
+              {view === 'city' ? (
+                <>
+                  <span>DISTRICT = FOLDER</span>
+                  <span>HEIGHT = IMPORTANCE</span>
+                  <span>GLOW = MAGNITUDE</span>
+                </>
+              ) : (
+                <>
+                  <span>{model.summary.edges} EDGES</span>
+                  <span>{view === 'risk' ? 'COLOR = MAGNITUDE' : 'SIZE = IMPORTANCE'}</span>
+                </>
+              )}
             </div>
-            <GraphView
-              model={model}
-              mode={view === 'risk' ? 'risk' : 'graph'}
-              selected={selected}
-              highlight={highlight}
-              layers={layers}
-              onSelect={select}
-            />
-            <div className="hud hud-br">SCROLL ZOOM · DRAG PAN · DBL-CLICK FIT</div>
+            {view === 'city' ? (
+              <CityView
+                model={model}
+                snapshots={snapshots}
+                time={time}
+                selected={selected}
+                highlight={highlight}
+                onSelect={select}
+              />
+            ) : (
+              <GraphView
+                model={model}
+                mode={view === 'risk' ? 'risk' : 'graph'}
+                selected={selected}
+                highlight={highlight}
+                layers={layers}
+                onSelect={select}
+              />
+            )}
+            <div className="hud hud-tl2">
+              {view === 'city' ? 'DRAG ORBIT · RIGHT-DRAG PAN · SCROLL ZOOM' : 'SCROLL ZOOM · DRAG PAN · DBL-CLICK FIT'}
+            </div>
             <AskBar slug={slug} model={model} onHighlight={setHighlight} onSelect={select} />
           </main>
           <Inspector model={model} slug={slug} selected={selected} onSelect={select} />

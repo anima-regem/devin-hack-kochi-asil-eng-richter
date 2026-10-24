@@ -4,6 +4,13 @@ Record each meaningful project change during the event, newest first. Update thi
 
 ## Event build log
 
+## 2026-10-24T21:49:26+05:30 — Stage 5b: 3D code city
+
+- Changed: Added `frontend/src/views/CityView.tsx` (three.js): folders as districts (shelf-packed plots with hairline edges and ground labels), files as towers (height = importance, emissive window texture colored by magnitude), UnrealBloom, ACES tone mapping, soft moonlight shadows, linear fog matched to a gradient sky in linear space, blinking beacons and red spill lights on the five hottest towers, intro fly-in, idle auto-orbit, hover outline + tooltip, click-to-select with a light column, ground shockwave rings and hop-timed cascade. Towers move on underdamped springs. Wired view 3 / key `3` in `App.tsx`; HUD hint moved under the view title; on-brand focus-visible outline.
+- Why: Second view of the same JSON model; the spring-driven towers are the base for time-travel.
+- Validation: `tsc -b` clean. Playwright (headless Chrome, SwiftShader WebGL) screenshots of rich, fastapi and black cities idle and with selection; no console or page errors. Fixed from screenshots: over-tall towers/cropped framing, solid beam, window shimmer, over-dark idle city, exponential fog swallowing the city, sky/fog color-space mismatch.
+- Limitations: Visuals verified with software WebGL only; bloom on a real GPU may read slightly stronger. Large single-folder repos render as one dense district.
+
 ## 2026-10-24T21:43:15+05:30 — Stage 5a: control-room UI + 2D graph with blast-radius cascade
 
 - Changed: Added `frontend/` (React 19 + Vite 8 + TypeScript). Canvas 2D dependency graph (d3-force layout clustered by folder) with the blast-radius cascade: shockwave rings from the selected file, a pulse travelling along each import edge hop by hop, spring-damped ignition of dependents colored by distance. Risk Map mode (color = magnitude), ghost-edge and bus-factor layers, left rail (repo stats, report card gauge, top risks, hottest files), right inspector (metrics, dependents by hop, hidden coupling, guard note / unblock plan), ask bar, boot screen. Design tokens in `frontend/src/styles/tokens.css`. Backend: `data/models/index.json` manifest so demo repos load statically without the API.

@@ -40,6 +40,13 @@ kbd {
   line-height: 14px;
   display: inline-block;
 }
+:focus {
+  outline: none;
+}
+:focus-visible {
+  outline: 1px solid var(--orange);
+  outline-offset: -1px;
+}
 ::selection {
   background: rgba(255, 106, 26, 0.35);
 }
@@ -687,10 +694,11 @@ kbd {
 .hud-view {
   color: var(--text);
 }
-.hud-br {
-  right: var(--s-4);
-  top: var(--s-4);
+.hud-tl2 {
+  top: calc(var(--s-4) + 18px);
+  left: var(--s-4);
   color: var(--text-4);
+  letter-spacing: 0.1em;
 }
 
 .tooltip {
