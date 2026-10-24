@@ -14,6 +14,20 @@ Record each meaningful project change during the event, newest first. Update thi
 
 ## Event build log
 
+## 2026-10-24T22:01:06+05:30 — Backtest: magnitude vs later fixes
+
+- Changed: Added `backend/richter/backtest.py` and `richter.cli backtest <url> [--cutoff]`: scores a repo at the snapshot nearest a history cutoff and measures the share of later fix-commit touches landing in the top 10% by magnitude, against churn-only and random baselines. README gains a Backtest section with the results.
+- Why: Turns 'nice visualization' into a checkable claim, and reports it honestly.
+- Validation: Ran at cutoffs 0.5/0.6/0.7 on all three demo repos. At 0.6: rich 45% (churn 46%, random 10%), fastapi 68% (72%, 10%), black 42% (48%, 11%). pytest 12 passed. Scoring not changed (still SCORING_VERSION 1.0).
+- Limitations: Magnitude does not beat a churn-only ranking at predicting future fixes; its added value is impact (blast radius). Small samples (5-8 top files per repo).
+
+## 2026-10-24T22:00:00+05:30 — README, demo media, submission draft
+
+- Changed: Rewrote `README.md` to lead with the differentiators (blast-radius cascade, guard notes/unblock plans, time-travel, ghost edges), prior-art positioning, scoring table, demo findings, mermaid architecture, run steps and honest limitations; kept the template's project overview and event section. Added `docs/blast-radius.gif`, `docs/time-travel.gif`, `docs/city.png`, `docs/risk-map.png`, `docs/city-blast.png` (recorded from the running app with Playwright + ffmpeg). Filled `SUBMISSION.md` except the final commit SHA and checklist, which the participant must confirm.
+- Why: The project is judged on the README; every number in it was checked against the analysis output in this session.
+- Validation: Cross-checked README figures against model output and screenshots (rich cells.py 88 dependents / 81%, fastapi routing.py 193 commits 50 fixes, black __init__.py 579 commits 130 fixes, grades D/C/B). GIF sizes 4.9 MB and 6.1 MB.
+- Limitations: Submission checklist left unticked for participant review. AI-note examples are not shown because no API key was available.
+
 ## 2026-10-24T21:55:51+05:30 — Design pass: laptop layout + render-safe refs
 
 - Changed: Responsive tier at <=1480px (narrower rails, short view-tab labels, repo owners hidden, no-wrap tabs/labels) in `frontend/src/styles/app.css` + `TopBar.tsx`. Moved ref syncing out of render into layout effects (`GraphView.tsx`, `CityView.tsx`, `Seismo.tsx`) and the repo-switch state reset from an effect into an `openRepo` handler (`App.tsx`).
