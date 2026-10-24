@@ -1,0 +1,68 @@
+/* Richter design tokens — a control room reading a living machine.
+   Near-black ground, hairlines, one cool accent (safe) and one hot ramp (danger).
+   Risk is the only loud thing on screen. */
+
+:root {
+  /* ground */
+  --bg: #0a0d0f;
+  --bg-1: #0d1114;
+  --bg-2: #111619;
+  --bg-3: #161c20;
+
+  /* hairlines */
+  --line: rgba(170, 196, 204, 0.075);
+  --line-2: rgba(170, 196, 204, 0.13);
+  --line-3: rgba(170, 196, 204, 0.22);
+
+  /* text */
+  --text: #d3dbdf;
+  --text-2: #94a2a9;
+  --text-3: #5d6a71;
+  --text-4: #3a454b;
+
+  /* cool — safe, structure, calm */
+  --cool: #6fb3b0;
+  --cool-2: #4d8583;
+  --cool-dim: #24403f;
+
+  /* hot — danger ramp */
+  --amber: #ffb02e;
+  --orange: #ff6a1a;
+  --red: #ff2d1f;
+  --hot-glow: rgba(255, 90, 30, 0.35);
+
+  /* type */
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-head: 'Archivo Variable', 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+
+  --fs-9: 9px;
+  --fs-10: 10px;
+  --fs-11: 11px;
+  --fs-12: 12px;
+  --fs-14: 14px;
+  --fs-18: 18px;
+  --fs-28: 28px;
+  --fs-44: 44px;
+
+  /* space (4px grid) */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-8: 32px;
+
+  /* layout */
+  --topbar-h: 48px;
+  --rail-l: 288px;
+  --rail-r: 360px;
+
+  /* motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --t-fast: 140ms;
+  --t-med: 280ms;
+  --t-slow: 600ms;
+}

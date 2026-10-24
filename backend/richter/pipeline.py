@@ -83,4 +83,19 @@ def analyze(url: str, include_tests: bool = False, save: bool = True) -> dict:
     if save:
         MODELS_DIR.mkdir(parents=True, exist_ok=True)
         (MODELS_DIR / f"{repo_slug(url)}.json").write_text(json.dumps(model, separators=(",", ":")))
+        write_manifest()
     return model
+
+
+def write_manifest() -> list[dict]:
+    """data/models/index.json — lets the frontend list demo repos with no backend."""
+    entries = []
+    for p in sorted(MODELS_DIR.glob("*.json")):
+        if p.name == "index.json":
+            continue
+        m = json.loads(p.read_text())
+        entries.append({"slug": p.stem, "name": m["repo"]["name"], "summary": m["summary"],
+                        "commits": m["repo"]["commits"],
+                        "has_snapshots": (MODELS_DIR.parent / "snapshots" / p.name).exists()})
+    (MODELS_DIR / "index.json").write_text(json.dumps(entries, indent=1))
+    return entries

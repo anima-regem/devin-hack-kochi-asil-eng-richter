@@ -4,6 +4,13 @@ Record each meaningful project change during the event, newest first. Update thi
 
 ## Event build log
 
+## 2026-10-24T21:43:15+05:30 — Stage 5a: control-room UI + 2D graph with blast-radius cascade
+
+- Changed: Added `frontend/` (React 19 + Vite 8 + TypeScript). Canvas 2D dependency graph (d3-force layout clustered by folder) with the blast-radius cascade: shockwave rings from the selected file, a pulse travelling along each import edge hop by hop, spring-damped ignition of dependents colored by distance. Risk Map mode (color = magnitude), ghost-edge and bus-factor layers, left rail (repo stats, report card gauge, top risks, hottest files), right inspector (metrics, dependents by hop, hidden coupling, guard note / unblock plan), ask bar, boot screen. Design tokens in `frontend/src/styles/tokens.css`. Backend: `data/models/index.json` manifest so demo repos load statically without the API.
+- Why: The blast-radius cascade is the signature interaction; the control-room layout keeps every metric one glance away.
+- Validation: `tsc -b` clean. Drove the app in headless Chrome via Playwright: graph, risk map, cascade frames on rich/cells.py (88 dependents over 3 hops), ghost + bus layers, repo switch to fastapi — no page errors. Backend pytest 10 passed.
+- Limitations: Code city tab disabled until stage 5b. Ghost edges, report card and ask bar were built in the same pass as the core graph (core cascade verified first). Ask-the-repo untested end-to-end without an API key.
+
 ## 2026-10-24T21:30:22+05:30 — Stage 4: agent actions + API
 
 - Changed: Added `backend/richter/agent.py` (gpt-4o-mini guard notes, unblock plans, ask-the-repo with JSON output; disk cache in `data/cache/`; ask-the-repo file paths validated against the model; labelled rule-based fallback when no key) and `backend/richter/api.py` (FastAPI: repos, model, snapshots, background analyze jobs with stages, note, ask). Committed demo models for rich and black.

@@ -15,7 +15,7 @@ from pydantic import BaseModel
 
 from . import agent
 from .ingest import REPOS_DIR, clone, read_log, repo_slug
-from .pipeline import MODELS_DIR, build_model
+from .pipeline import MODELS_DIR, build_model, write_manifest
 
 SNAPSHOTS_DIR = MODELS_DIR.parent / "snapshots"
 
@@ -42,13 +42,7 @@ def repo_root(slug: str) -> Path | None:
 
 @app.get("/api/repos")
 def repos():
-    out = []
-    for p in sorted(MODELS_DIR.glob("*.json")):
-        m = load_model(p.stem)
-        out.append({"slug": p.stem, "name": m["repo"]["name"], "summary": m["summary"],
-                    "commits": m["repo"]["commits"],
-                    "has_snapshots": (SNAPSHOTS_DIR / p.name).exists()})
-    return out
+    return write_manifest()
 
 
 @app.get("/api/model/{slug}")
@@ -86,6 +80,7 @@ def _run_job(job_id: str, url: str, include_tests: bool) -> None:
         m = build_model(root, commits, url, include_tests)
         MODELS_DIR.mkdir(parents=True, exist_ok=True)
         (MODELS_DIR / f"{slug}.json").write_text(json.dumps(m, separators=(",", ":")))
+        write_manifest()
         job.update(stage="done", slug=slug, detail=f"{m['summary']['files']} files scored")
     except Exception as e:  # surface the real failure to the UI
         job.update(stage="error", detail=str(e))

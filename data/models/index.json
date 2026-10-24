@@ -1,0 +1,41 @@
+[
+ {
+  "slug": "fastapi__fastapi",
+  "name": "fastapi/fastapi",
+  "summary": {
+   "files": 67,
+   "edges": 125,
+   "cochange_pairs": 27,
+   "ghost_edges": 17,
+   "bus_factor_files": 26
+  },
+  "commits": 7932,
+  "has_snapshots": false
+ },
+ {
+  "slug": "psf__black",
+  "name": "psf/black",
+  "summary": {
+   "files": 56,
+   "edges": 125,
+   "cochange_pairs": 63,
+   "ghost_edges": 39,
+   "bus_factor_files": 11
+  },
+  "commits": 2442,
+  "has_snapshots": false
+ },
+ {
+  "slug": "textualize__rich",
+  "name": "Textualize/rich",
+  "summary": {
+   "files": 109,
+   "edges": 436,
+   "cochange_pairs": 265,
+   "ghost_edges": 241,
+   "bus_factor_files": 38
+  },
+  "commits": 3387,
+  "has_snapshots": false
+ }
+]

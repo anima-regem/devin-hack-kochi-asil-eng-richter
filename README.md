@@ -34,17 +34,17 @@ This template has no application code or required technology stack. The document
 - **Project name:** Richter — measure the magnitude of risk in any codebase
 - **Short description:** Richter ingests a public GitHub repo and predicts what breaks when you change a file (blast radius), where work keeps getting reworked (fix-heavy churn), and which files are secretly coupled (co-change with no import link). It fuses these into one magnitude score and writes guard notes and unblock plans with an LLM. It helps engineers and reviewers touch risky code safely.
 - **Team:** Muhammed Asil Pari ([@asil-eng](https://github.com/asil-eng))
-- **Working demo:** In progress — local demo instructions will be added once the frontend runs.
+- **Working demo:** Local — see *Run the project* below.
 - **Technology stack:** Python 3 + FastAPI, GitPython, `ast`, networkx (backend); React + Vite + TypeScript, three.js (frontend); OpenAI `gpt-4o-mini` (notes).
 
 ### Run the project
 
 Replace these placeholders with commands that actually work for your project:
 
-1. Prerequisites and versions: Python 3.11+ (tested on 3.14), git 2.30+, Node 20+ (tested on 24)
-2. Dependency installation: `cd backend && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt`
+1. Prerequisites and versions: Python 3.11+ (tested on 3.14), git 2.30+, Node 20.19+ (tested on 24)
+2. Dependency installation: `cd backend && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt` and `cd frontend && npm install`
 3. Environment setup: `cp .env.example .env` and set `OPENAI_API_KEY` (only needed for guard notes / ask-the-repo on fresh repos)
-4. Start the project: analysis CLI so far — `cd backend && .venv/bin/python -m richter.cli analyze https://github.com/fastapi/fastapi` (writes `data/models/<owner>__<repo>.json`; add `--include-tests` to parse tests/docs/examples)
+4. Start the project: backend `cd backend && .venv/bin/uvicorn richter.api:app --port 8000`; frontend `cd frontend && npm run dev` → http://localhost:5173. The demo repos (rich, fastapi, black) also load with the frontend alone. Analyze a new repo from the UI or with `.venv/bin/python -m richter.cli analyze <github-url> [--include-tests]`.
 5. Run checks or tests: `cd backend && .venv/bin/python -m pytest -q`
 
 ### Current status
