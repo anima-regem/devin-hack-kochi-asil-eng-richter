@@ -22,3 +22,7 @@ Thumbs.db
 *.log
 
 # Add entries appropriate to your chosen language or framework.
+
+# Richter: cloned repos under analysis, Vite cache
+.repos/
+.vite/

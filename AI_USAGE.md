@@ -8,7 +8,7 @@ No participant AI usage has been recorded yet. Replace the placeholder row as yo
 
 | Date and time with timezone | Tool / model, if known | Task | Assistance and affected files | Human review / corrections | Validation and result |
 | --- | --- | --- | --- | --- | --- |
-| TODO | Codex | TODO | TODO | Pending | TODO |
+| 2026-10-24T21:20+05:30 | Claude Code (Claude Opus 5.5) | Spec review; project scaffold; stage 1 ingest | Reviewed the project spec and suggested fixes (blobless clone, fix-ratio metric, co-change de-noising); wrote `backend/richter/ingest.py`, README overview, this log | Spec changes reviewed and approved by participant; code review pending | Ran ingest on fastapi: 7932 commits parsed |
 
 ## Template preparation
 

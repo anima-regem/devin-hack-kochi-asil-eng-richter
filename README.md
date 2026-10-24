@@ -31,26 +31,26 @@ This template has no application code or required technology stack. The document
 
 ## Project overview — complete during the event
 
-- **Project name:** TODO
-- **Short description:** TODO — what it does, who it helps, and why it matters.
-- **Team:** TODO — participant names and GitHub handles; maximum 4 members.
-- **Working demo:** TODO — link or local demo instructions.
-- **Technology stack:** TODO
+- **Project name:** Richter — measure the magnitude of risk in any codebase
+- **Short description:** Richter ingests a public GitHub repo and predicts what breaks when you change a file (blast radius), where work keeps getting reworked (fix-heavy churn), and which files are secretly coupled (co-change with no import link). It fuses these into one magnitude score and writes guard notes and unblock plans with an LLM. It helps engineers and reviewers touch risky code safely.
+- **Team:** Muhammed Asil Pari ([@asil-eng](https://github.com/asil-eng))
+- **Working demo:** In progress — local demo instructions will be added once the frontend runs.
+- **Technology stack:** Python 3 + FastAPI, GitPython, `ast`, networkx (backend); React + Vite + TypeScript, three.js (frontend); OpenAI `gpt-4o-mini` (notes).
 
 ### Run the project
 
 Replace these placeholders with commands that actually work for your project:
 
-1. Prerequisites and versions: TODO
-2. Dependency installation: TODO
-3. Environment setup: TODO — list required variable names and provide a sanitized `.env.example` if needed.
-4. Start the project: TODO
+1. Prerequisites and versions: Python 3.11+ (tested on 3.14), git 2.30+, Node 20+ (tested on 24)
+2. Dependency installation: `cd backend && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt`
+3. Environment setup: `cp .env.example .env` and set `OPENAI_API_KEY` (only needed for guard notes / ask-the-repo on fresh repos)
+4. Start the project: stage 1 only so far — `cd backend && .venv/bin/python -m richter.ingest https://github.com/fastapi/fastapi`
 5. Run checks or tests: TODO
 
 ### Current status
 
-- Working features: TODO
-- Known limitations: TODO
-- Libraries, APIs, and public datasets used: TODO — include source links and applicable attribution.
+- Working features: Stage 1 ingest — blobless clone with full history, git log with rename detection
+- Known limitations: Python repos only for now. First ingest of a large repo is slow (~4 min for fastapi) because rename detection lazily fetches file contents; later runs reuse the clone.
+- Libraries, APIs, and public datasets used: [FastAPI](https://fastapi.tiangolo.com), [GitPython](https://github.com/gitpython-developers/GitPython), [networkx](https://networkx.org), [OpenAI API](https://platform.openai.com). Demo repos analyzed: public GitHub repositories (fastapi, httpx, rich).
 
 See [AI_USAGE.md](AI_USAGE.md) for AI assistance and [CHANGELOG.md](CHANGELOG.md) for the development record.
