@@ -18,7 +18,20 @@ def main() -> None:
     s = sub.add_parser("snapshots", help="precompute time-travel frames to data/snapshots/<slug>.json")
     s.add_argument("url")
     s.add_argument("--frames", type=int, default=28)
+    b = sub.add_parser("backtest", help="does magnitude at a past snapshot predict later fixes?")
+    b.add_argument("url")
+    b.add_argument("--cutoff", type=float, default=0.6, help="fraction of history treated as the past")
     args = ap.parse_args()
+
+    if args.cmd == "backtest":
+        from .backtest import backtest
+
+        r = backtest(args.url, cutoff=args.cutoff)
+        print(f"{r['repo']}: scored at commit {r['cutoff_commit']}/{r['commits']}, "
+              f"{r['future_fix_touches']} later fix touches on {r['files_at_cutoff']} files")
+        print(f"  top {r['top_n']} files by magnitude caught {r['magnitude_share']:.0%} "
+              f"| by churn {r['churn_share']:.0%} | random {r['random_share']:.0%}")
+        return
 
     if args.cmd == "snapshots":
         from .snapshots import build_snapshots

@@ -55,6 +55,18 @@ The scoring was **frozen** (`SCORING_VERSION = "1.0"`) after one sanity check on
 
 The repo grade comes from four *absolute* signals (fix concentration, widest blast radius, bus-factor share, hidden-coupling density). File magnitudes are relative within a repo, so a grade built from them alone couldn't tell repos apart.
 
+### Backtest: does it predict anything?
+
+The backtest scores each repo as it was 60% of the way through its history, using that moment's snapshot. It then counts the fix commits that landed **afterwards** and measures what share of them hit the top 10% of files by magnitude:
+
+| Repo | Scored at | Fix touches after | Top 10% by **magnitude** | Top 10% by churn alone | Random |
+| --- | --- | --- | --- | --- | --- |
+| rich | commit 2,056 / 3,387 | 208 | **45%** | 46% | 10% |
+| fastapi | commit 4,816 / 7,932 | 76 | **68%** | 72% | 10% |
+| black | commit 1,483 / 2,442 | 233 | **42%** | 48% | 11% |
+
+The honest reading: magnitude finds where future fixes land **4–7× better than random**. A churn-only ranking does about as well, and slightly better on fastapi and black. So the *predictive* power comes mostly from the history signal. What magnitude adds is **impact**: it ranks the reworked files by how much breaks when they change, and the blast radius tells you exactly what that is. The scoring was frozen before this test and hasn't been tuned against it. Reproduce it with `python -m richter.cli backtest <url> [--cutoff 0.6]`.
+
 ## Architecture
 
 ```mermaid
@@ -98,6 +110,7 @@ Optional: `cp .env.example .env` and set `OPENAI_API_KEY` to enable AI guard not
 cd backend
 .venv/bin/python -m richter.cli analyze https://github.com/owner/repo [--include-tests]
 .venv/bin/python -m richter.cli snapshots https://github.com/owner/repo
+.venv/bin/python -m richter.cli backtest https://github.com/owner/repo   # needs snapshots
 .venv/bin/python -m pytest -q                  # 12 tests
 ```
 
