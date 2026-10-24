@@ -152,18 +152,11 @@ Keys: `1` graph · `2` risk map · `3` city · `Esc` clear selection.
 
 See [AI_USAGE.md](AI_USAGE.md) for AI assistance and [CHANGELOG.md](CHANGELOG.md) for the development record.
 
-## Event: DevDay Exchange Community Hackathon, Kochi
+## Event: Devin Hack Kochi
 
-Built from the [event template](https://github.com/anima-regem/devday-kochi-hackathon-template). **[Event rules](RULES.md)** · **[Agent instructions](AGENTS.md)** · **[Submission](SUBMISSION.md)** · **[Luma](https://luma.com/z10nz8gp)**
+Adapted from the [original documentation template](https://github.com/anima-regem/devday-kochi-hackathon-template), which the organizer shared by mistake. Follow current organizer announcements for event logistics and eligibility.
 
-| Detail | Information |
-| --- | --- |
-| Venue | JAIN University, Kochi, rooms 2008 and 2009 |
-| Dates | 10–11 October 2026 (wrap-up by 10:00 AM IST, 11 October) |
-| Participation | Solo or a team of up to 4 participants |
-| Theme | Open |
-
-## Event clarification
+**[Event guidance](RULES.md)** · **[Agent instructions](AGENTS.md)** · **[Submission](SUBMISSION.md)**
 
 Devin Hack Kochi has no major AI usage constraints. Participants may use Devin and other AI tools, models, and providers; this template does not require Codex or restrict AI usage to OpenAI. AI usage notes are project documentation, not an additional event eligibility requirement.
 

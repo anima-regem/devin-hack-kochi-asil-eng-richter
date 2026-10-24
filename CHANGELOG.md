@@ -1,5 +1,12 @@
 # Change log
 
+## 2026-10-24T22:04:32+05:30 — Keep event correction aligned with the new project README
+
+- Changed: retained the participant's rewritten Richter README and corrected the old event footer it introduced.
+- Why: the project README changed while the event correction PR was being prepared.
+- Validation: documentation-only diff and whitespace checks; local Markdown links checked against the current base.
+- Limitations: maintainer review is pending; no application behavior changed.
+
 ## 2026-10-24T21:53:05+05:30 — Correct Devin Hack Kochi event guidance
 
 - Changed: corrected the current event name and AI tool guidance in `.github/pull_request_template.md`, `AGENTS.md`, `AI_USAGE.md`, `CHANGELOG.md`, `README.md`, `RULES.md`, `SUBMISSION.md`.

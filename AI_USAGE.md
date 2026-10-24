@@ -36,3 +36,5 @@ This preparation is separate from participant project implementation and partici
 - Human review: pending maintainer review of this pull request.
 - Validation: documentation diff, whitespace, and local Markdown link checks;
   no application code changed and no runtime checks were needed.
+
+- 2026-10-24T22:04:32+05:30 — Codex preserved the participant's new README during conflict resolution and corrected its reintroduced old-event footer. Human review remains pending; documentation checks only.
