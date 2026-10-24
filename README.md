@@ -49,7 +49,7 @@ Replace these placeholders with commands that actually work for your project:
 
 ### Current status
 
-- Working features: Stage 1 ingest (blobless clone, full history, renames); stage 2 parsers — import graph (`python -m richter.deps <repo>`) and git stats/co-change (`python -m richter.gitstats <repo>`); stage 3 risk engine — blast radius, structural/human risk, magnitude, bus factor, single JSON model
+- Working features: Stage 1 ingest (blobless clone, full history, renames); stage 2 parsers — import graph (`python -m richter.deps <repo>`) and git stats/co-change (`python -m richter.gitstats <repo>`); stage 3 risk engine — blast radius, structural/human risk, magnitude, bus factor, single JSON model; stage 4 agent (guard notes, unblock plans, ask-the-repo) and FastAPI server (`cd backend && .venv/bin/uvicorn richter.api:app --port 8000`)
 - Known limitations: Python repos only for now. First ingest of a large repo is slow (~4 min for fastapi) because rename detection lazily fetches file contents; later runs reuse the clone.
 - Libraries, APIs, and public datasets used: [FastAPI](https://fastapi.tiangolo.com), [GitPython](https://github.com/gitpython-developers/GitPython), [networkx](https://networkx.org), [OpenAI API](https://platform.openai.com). Demo repos analyzed: public GitHub repositories (fastapi, httpx, rich).
 
