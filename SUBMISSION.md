@@ -4,12 +4,12 @@ Complete this file during the hackathon and use it to prepare your submission th
 
 ## Project
 
-- **Project name:** TODO
-- **Short description:** TODO — describe the problem, what you built, and who benefits.
-- **Code repository URL:** TODO
-- **Final submitted implementation commit SHA:** TODO
-- **Working demo URL or local demo steps:** TODO
-- **Demo access requirements:** TODO — explain any prerequisites without including private credentials.
+- **Project name:** Richter — measure the magnitude of risk in any codebase
+- **Short description:** Changing a central file in an unfamiliar codebase is risky, and the risk is invisible. Richter ingests a public GitHub repo and predicts what breaks when a file changes (transitive blast radius), where work keeps getting reworked (fix-heavy churn), and which files are secretly coupled (co-change with no import). It fuses these into one magnitude score shown as a 2D risk graph and a 3D code city with time-travel, and writes guard notes and unblock plans with an LLM. It helps engineers, reviewers and newcomers touch risky code safely.
+- **Code repository URL:** https://github.com/asil-eng/richter
+- **Final submitted implementation commit SHA:** TODO — participant to record at submission
+- **Working demo URL or local demo steps:** Local — `cd frontend && npm install && npm run dev`, open http://localhost:5173. The three demo repos load without the backend; start `cd backend && .venv/bin/uvicorn richter.api:app --port 8000` for notes, ask-the-repo and analyzing new repos.
+- **Demo access requirements:** None for the demo repos. `OPENAI_API_KEY` in `.env` enables AI notes and ask-the-repo.
 
 ## Participants
 
@@ -17,18 +17,18 @@ Participate solo or in a team of up to 4. Remove unused rows.
 
 | Participant name | GitHub handle | Contribution |
 | --- | --- | --- |
-| TODO | TODO | TODO |
+| Muhammed Asil Pari | [@asil-eng](https://github.com/asil-eng) | Project idea, spec, review and direction; implementation with Claude Code (see AI_USAGE.md) |
 
 ## Run and demonstrate
 
-- **Prerequisites and versions:** TODO
-- **Install command:** TODO
-- **Required environment variable names:** TODO — use a sanitized example file if needed.
-- **Start command:** TODO
-- **Demo walkthrough:** TODO — brief steps showing the implemented features.
-- **Checks performed and results:** TODO
-- **Known limitations or incomplete features:** TODO
-- **Libraries, APIs, and public datasets used:** TODO — link sources and record attribution where required.
+- **Prerequisites and versions:** Python 3.11+ (tested on 3.14), git 2.30+, Node 20.19+ (tested on 24)
+- **Install command:** `cd backend && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt`; `cd frontend && npm install`
+- **Required environment variable names:** `OPENAI_API_KEY` (optional; see `.env.example`)
+- **Start command:** `cd backend && .venv/bin/uvicorn richter.api:app --port 8000` and `cd frontend && npm run dev`
+- **Demo walkthrough:** (1) rich loads with its report card (grade D, M 6.5). (2) Press `2` for the risk map, click `cells.py` in the hottest list → blast-radius cascade over 88 dependents. (3) Toggle *Ghost edges*. (4) Press `3` for the code city, press ▶ on the timeline to watch 2019→2026. (5) Switch to fastapi/black in the top bar. (6) With a key: ask “which files are most fragile?”.
+- **Checks performed and results:** backend `pytest` 12 passed; frontend `tsc -b` clean, `npm run build` succeeds, `oxlint src` 0 warnings; UI driven in headless Chrome via Playwright for every view with no page errors.
+- **Known limitations or incomplete features:** Python repos only; AI notes/ask untested end-to-end without an API key (rule-based fallback verified); fix detection is a commit-message regex; first ingest of large repos is slow. See README → Scope and limitations.
+- **Libraries, APIs, and public datasets used:** FastAPI, GitPython, networkx, NumPy/SciPy, React, Vite, d3-force, three.js, IBM Plex Mono and Archivo (Fontsource), OpenAI API; demo data derived from public repos Textualize/rich, fastapi/fastapi, psf/black.
 - **AI usage record:** [AI_USAGE.md](AI_USAGE.md)
 - **Development change log:** [CHANGELOG.md](CHANGELOG.md)
 

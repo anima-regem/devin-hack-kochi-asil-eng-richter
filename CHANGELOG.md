@@ -4,6 +4,13 @@ Record each meaningful project change during the event, newest first. Update thi
 
 ## Event build log
 
+## 2026-10-24T22:00:00+05:30 — README, demo media, submission draft
+
+- Changed: Rewrote `README.md` to lead with the differentiators (blast-radius cascade, guard notes/unblock plans, time-travel, ghost edges), prior-art positioning, scoring table, demo findings, mermaid architecture, run steps and honest limitations; kept the template's project overview and event section. Added `docs/blast-radius.gif`, `docs/time-travel.gif`, `docs/city.png`, `docs/risk-map.png`, `docs/city-blast.png` (recorded from the running app with Playwright + ffmpeg). Filled `SUBMISSION.md` except the final commit SHA and checklist, which the participant must confirm.
+- Why: The project is judged on the README; every number in it was checked against the analysis output in this session.
+- Validation: Cross-checked README figures against model output and screenshots (rich cells.py 88 dependents / 81%, fastapi routing.py 193 commits 50 fixes, black __init__.py 579 commits 130 fixes, grades D/C/B). GIF sizes 4.9 MB and 6.1 MB.
+- Limitations: Submission checklist left unticked for participant review. AI-note examples are not shown because no API key was available.
+
 ## 2026-10-24T21:55:51+05:30 — Design pass: laptop layout + render-safe refs
 
 - Changed: Responsive tier at <=1480px (narrower rails, short view-tab labels, repo owners hidden, no-wrap tabs/labels) in `frontend/src/styles/app.css` + `TopBar.tsx`. Moved ref syncing out of render into layout effects (`GraphView.tsx`, `CityView.tsx`, `Seismo.tsx`) and the repo-switch state reset from an effect into an `openRepo` handler (`App.tsx`).

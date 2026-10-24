@@ -16,6 +16,7 @@ No participant AI usage has been recorded yet. Replace the placeholder row as yo
 | 2026-10-24T21:49+05:30 | Claude Code (Claude Opus 5.5) | Stage 5b: 3D code city | Wrote `CityView.tsx` and iterated lighting/fog/camera from screenshots | Pending participant review | tsc clean; screenshots reviewed, no errors |
 | 2026-10-24T21:53+05:30 | Claude Code (Claude Opus 5.5) | Time-travel: snapshots + scrubber | Wrote snapshots pipeline, FileIdentity refactor, Timeline component, city interpolation | Pending participant review | pytest 12 passed; screenshots reviewed |
 | 2026-10-24T21:55+05:30 | Claude Code (Claude Opus 5.5) | Design pass: laptop layout + render-safe refs | Screen-by-screen design review and fixes | Pending participant review | build + lint clean; screenshots reviewed |
+| 2026-10-24T22:00+05:30 | Claude Code (Claude Opus 5.5) | README, demo media, submission draft | Wrote README and SUBMISSION drafts; recorded and encoded demo GIFs/screenshots | Pending participant review | Figures cross-checked against generated models |
 
 ## Template preparation
 
