@@ -73,7 +73,11 @@ def blast_radius(g: nx.DiGraph, node: str) -> dict[str, int]:
     return dist
 
 
-def score(g: nx.DiGraph, stats: dict[str, FileStats]) -> dict[str, FileRisk]:
+def score(g: nx.DiGraph, stats: dict[str, FileStats],
+          human_ref: float | None = None) -> dict[str, FileRisk]:
+    """`human_ref` (snapshots only): normalize human risk as log1p(x)/human_ref against
+    the present-day maximum instead of this graph's own range, so a time-lapse shows
+    rework accumulating rather than every era looking equally hot."""
     if g.number_of_nodes() == 0:
         return {}
     pr = nx.pagerank(g) if g.number_of_edges() else {n: 1 / len(g) for n in g}
@@ -82,7 +86,10 @@ def score(g: nx.DiGraph, stats: dict[str, FileStats]) -> dict[str, FileRisk]:
     importance = rank_normalize(pr)
     blast_rank = rank_normalize({n: len(b) for n, b in blasts.items()})
     human_raw = {n: stats[n].human_risk if n in stats else 0.0 for n in g}
-    human = log_minmax(human_raw)
+    if human_ref:
+        human = {k: min(1.0, math.log1p(v) / human_ref) for k, v in human_raw.items()}
+    else:
+        human = log_minmax(human_raw)
 
     out = {}
     for n in g:

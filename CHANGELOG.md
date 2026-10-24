@@ -4,6 +4,13 @@ Record each meaningful project change during the event, newest first. Update thi
 
 ## Event build log
 
+## 2026-10-24T21:53:43+05:30 — Time-travel: snapshots + scrubber
+
+- Changed: Added `backend/richter/snapshots.py` + `richter.cli snapshots <url>`: 28 sampled commits, sparse (`*.py`) blobless worktree checkout per sample, import graph + git stats on the history prefix, scored by the frozen engine; historical paths mapped to today's files via a shared `gitstats.FileIdentity` (refactored out of `compute`). `risk.score` gained an optional `human_ref` used only by snapshots so the human axis is relative to the present-day maximum. Frontend `Timeline.tsx`: seismogram of commit/fix activity, draggable needle, eased 14 s playback, NOW reset; city towers interpolate between frames, unborn files are flat, and the skyline scales with file count. Committed snapshots for rich, fastapi, black.
+- Why: Hero feature: watch the city grow and redden as rework accumulates. Precomputed so the demo runs offline.
+- Validation: `pytest` 12 passed. Snapshot runs: rich 46 s, fastapi 36 s, black ~1 min. rich grows 25 -> 109 files; the jump at the last frame was checked and is real (`_unicode_data` package added Jan 2026). Playwright screenshots at 5%, 45%, 80% of history and during playback; no errors. HEAD-frame scoring is unchanged (SCORING_VERSION 1.0).
+- Limitations: Files added only via merge commits are not mapped (log uses --no-merges). Snapshots for freshly analyzed repos must be generated with the CLI; the UI does not trigger them.
+
 ## 2026-10-24T21:49:26+05:30 — Stage 5b: 3D code city
 
 - Changed: Added `frontend/src/views/CityView.tsx` (three.js): folders as districts (shelf-packed plots with hairline edges and ground labels), files as towers (height = importance, emissive window texture colored by magnitude), UnrealBloom, ACES tone mapping, soft moonlight shadows, linear fog matched to a gradient sky in linear space, blinking beacons and red spill lights on the five hottest towers, intro fly-in, idle auto-orbit, hover outline + tooltip, click-to-select with a light column, ground shockwave rings and hop-timed cascade. Towers move on underdamped springs. Wired view 3 / key `3` in `App.tsx`; HUD hint moved under the view title; on-brand focus-visible outline.

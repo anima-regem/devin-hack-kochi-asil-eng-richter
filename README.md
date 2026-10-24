@@ -44,7 +44,7 @@ Replace these placeholders with commands that actually work for your project:
 1. Prerequisites and versions: Python 3.11+ (tested on 3.14), git 2.30+, Node 20.19+ (tested on 24)
 2. Dependency installation: `cd backend && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt` and `cd frontend && npm install`
 3. Environment setup: `cp .env.example .env` and set `OPENAI_API_KEY` (only needed for guard notes / ask-the-repo on fresh repos)
-4. Start the project: backend `cd backend && .venv/bin/uvicorn richter.api:app --port 8000`; frontend `cd frontend && npm run dev` → http://localhost:5173. The demo repos (rich, fastapi, black) also load with the frontend alone. Analyze a new repo from the UI or with `.venv/bin/python -m richter.cli analyze <github-url> [--include-tests]`.
+4. Start the project: backend `cd backend && .venv/bin/uvicorn richter.api:app --port 8000`; frontend `cd frontend && npm run dev` → http://localhost:5173. The demo repos (rich, fastapi, black) also load with the frontend alone. Analyze a new repo from the UI or with `.venv/bin/python -m richter.cli analyze <github-url> [--include-tests]`. Precompute time-travel frames with `.venv/bin/python -m richter.cli snapshots <github-url>`.
 5. Run checks or tests: `cd backend && .venv/bin/python -m pytest -q`
 
 ### Current status

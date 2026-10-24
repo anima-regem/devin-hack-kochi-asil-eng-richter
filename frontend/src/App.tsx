@@ -3,6 +3,7 @@ import { AskBar } from './components/AskBar'
 import { BootScreen } from './components/BootScreen'
 import { Inspector } from './components/Inspector'
 import { LeftRail } from './components/LeftRail'
+import { Timeline } from './components/Timeline'
 import { TopBar } from './components/TopBar'
 import { listRepos, loadModel, loadSnapshots } from './lib/data'
 import type { RepoEntry, RiskModel, Snapshots, View } from './lib/types'
@@ -100,7 +101,7 @@ export default function App() {
       {model && slug && (
         <>
           <LeftRail model={model} selected={selected} onSelect={select} layers={layers} setLayers={setLayers} />
-          <main className="stage" key={slug}>
+          <main className={`stage stage-${view}`} key={slug}>
             <div className="hud hud-tl">
               <span className="hud-view">{VIEW_NAME[view]}</span>
               <span>{model.summary.files} FILES</span>
@@ -139,6 +140,8 @@ export default function App() {
             <div className="hud hud-tl2">
               {view === 'city' ? 'DRAG ORBIT · RIGHT-DRAG PAN · SCROLL ZOOM' : 'SCROLL ZOOM · DRAG PAN · DBL-CLICK FIT'}
             </div>
+            {view === 'city' && snapshots && <Timeline snapshots={snapshots} time={time} setTime={setTime} />}
+            {view === 'city' && !snapshots && <div className="hud hud-bl">NO SNAPSHOTS — run `richter.cli snapshots` for time-travel</div>}
             <AskBar slug={slug} model={model} onHighlight={setHighlight} onSelect={select} />
           </main>
           <Inspector model={model} slug={slug} selected={selected} onSelect={select} />

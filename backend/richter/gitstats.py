@@ -16,7 +16,7 @@ from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 from itertools import combinations
 
-from .ingest import Commit
+from .ingest import Commit, FileChange
 
 FIX_RE = re.compile(r"\b(fix(e[sd])?|bug(s|fix)?|revert(s|ed)?|hotfix|regression|crash(es)?|broken)\b", re.I)
 
@@ -62,32 +62,44 @@ def is_fix(message: str) -> bool:
     return bool(FIX_RE.search(message))
 
 
+class FileIdentity:
+    """Stable ids for files across renames: `path` -> id, updated commit by commit."""
+
+    def __init__(self) -> None:
+        self.ids: dict[str, int] = {}  # current path -> stable file id
+        self._next = 0
+
+    def _new(self) -> int:
+        self._next += 1
+        return self._next - 1
+
+    def apply(self, ch: FileChange) -> int | None:
+        if ch.status == "R" and ch.old_path is not None:
+            fid = self.ids.pop(ch.old_path, None)
+            fid = self._new() if fid is None else fid
+            self.ids[ch.path] = fid
+            return fid
+        if ch.status == "D":
+            return self.ids.pop(ch.path, None)
+        fid = self.ids.get(ch.path)
+        if fid is None:
+            fid = self.ids[ch.path] = self._new()
+        return fid
+
+
 def compute(commits: list[Commit], keep: set[str] | None = None
             ) -> tuple[dict[str, FileStats], list[CoChange]]:
     """Stats for files alive after `commits` (oldest first). `keep` filters paths."""
-    ident: dict[str, int] = {}          # current path -> stable file id
-    next_id = 0
+    identity = FileIdentity()
     stats: dict[int, FileStats] = defaultdict(FileStats)
     pair_counts: Counter[tuple[int, int]] = Counter()
 
     for c in commits:
         touched: set[int] = set()
         for ch in c.changes:
-            if ch.status == "R" and ch.old_path is not None:
-                fid = ident.pop(ch.old_path, None)
-                if fid is None:
-                    fid, next_id = next_id, next_id + 1
-                ident[ch.path] = fid
-            elif ch.status == "D":
-                fid = ident.pop(ch.path, None)
-                if fid is None:
-                    continue
-            else:
-                fid = ident.get(ch.path)
-                if fid is None:
-                    fid, next_id = next_id, next_id + 1
-                    ident[ch.path] = fid
-            touched.add(fid)
+            fid = identity.apply(ch)
+            if fid is not None:
+                touched.add(fid)
 
         fix = is_fix(c.message)
         for fid in touched:
@@ -102,7 +114,7 @@ def compute(commits: list[Commit], keep: set[str] | None = None
             for a, b in combinations(sorted(touched), 2):
                 pair_counts[(a, b)] += 1
 
-    path_of = {fid: p for p, fid in ident.items() if keep is None or p in keep}
+    path_of = {fid: p for p, fid in identity.ids.items() if keep is None or p in keep}
     out = {path_of[fid]: stats[fid] for fid in path_of if fid in stats}
 
     cochange = []

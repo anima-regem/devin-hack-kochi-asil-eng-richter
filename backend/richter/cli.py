@@ -15,7 +15,18 @@ def main() -> None:
     a.add_argument("url")
     a.add_argument("--include-tests", action="store_true",
                    help="also parse tests/, docs_src/, docs/, examples/")
+    s = sub.add_parser("snapshots", help="precompute time-travel frames to data/snapshots/<slug>.json")
+    s.add_argument("url")
+    s.add_argument("--frames", type=int, default=28)
     args = ap.parse_args()
+
+    if args.cmd == "snapshots":
+        from .snapshots import build_snapshots
+
+        t0 = time.time()
+        snap = build_snapshots(args.url, frames=args.frames)
+        print(f"{len(snap['frames'])} frames in {time.time() - t0:.1f}s")
+        return
 
     t0 = time.time()
     m = analyze(args.url, include_tests=args.include_tests)

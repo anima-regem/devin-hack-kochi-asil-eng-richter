@@ -414,14 +414,21 @@ export function CityView({ model, snapshots, time, selected, highlight, onSelect
 
     // ---- targets from model / snapshots
     const heightOf = (imp: number) => 0.5 + Math.pow(imp, 1.5) * maxH
+    let aliveCache: { S: Snapshots; alive: number[] } | null = null
     const computeTargets = () => {
       const P = props.current
       const S = P.snapshots
       if (S && P.time !== null && S.frames.length) {
+        if (aliveCache?.S !== S) aliveCache = { S, alive: S.frames.map((fr) => fr.importance.filter((v) => v !== null).length) }
+        const alive = aliveCache.alive
         const f = Math.min(S.frames.length - 1, Math.max(0, P.time))
-        const a = S.frames[Math.floor(f)]
-        const b = S.frames[Math.min(S.frames.length - 1, Math.floor(f) + 1)]
-        const k = f - Math.floor(f)
+        const fi = Math.floor(f)
+        const a = S.frames[fi]
+        const b = S.frames[Math.min(S.frames.length - 1, fi + 1)]
+        const k = f - fi
+        // a young codebase is a low town: the whole skyline scales with file count
+        const aliveNow = alive[fi] + (alive[Math.min(alive.length - 1, fi + 1)] - alive[fi]) * k
+        const grow = 0.3 + 0.7 * Math.sqrt(aliveNow / Math.max(1, alive[alive.length - 1]))
         for (const t of towers) {
           const ia = a.importance[t.i]
           const ib = b.importance[t.i]
@@ -430,7 +437,7 @@ export function CityView({ model, snapshots, time, selected, highlight, onSelect
           // a file not yet born is flat; it rises as the scrubber crosses its birth
           const imp = (ia ?? -0.04) * (1 - k) + (ib ?? -0.04) * k
           const mag = (ma ?? 0) * (1 - k) + (mb ?? 0) * k
-          t.targetH = imp < 0 ? 0 : heightOf(imp)
+          t.targetH = imp < 0 ? 0 : heightOf(imp) * grow
           t.targetM = mag
         }
       } else {

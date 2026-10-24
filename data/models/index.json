@@ -10,7 +10,7 @@
    "bus_factor_files": 26
   },
   "commits": 7932,
-  "has_snapshots": false
+  "has_snapshots": true
  },
  {
   "slug": "psf__black",
@@ -23,7 +23,7 @@
    "bus_factor_files": 11
   },
   "commits": 2442,
-  "has_snapshots": false
+  "has_snapshots": true
  },
  {
   "slug": "textualize__rich",
@@ -36,6 +36,6 @@
    "bus_factor_files": 38
   },
   "commits": 3387,
-  "has_snapshots": false
+  "has_snapshots": true
  }
 ]

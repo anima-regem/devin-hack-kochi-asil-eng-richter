@@ -1178,6 +1178,130 @@ kbd {
   color: var(--text-3);
 }
 
+/* ============================================================ timeline */
+.stage-city .ask {
+  bottom: 92px;
+}
+.hud-bl {
+  left: var(--s-4);
+  bottom: var(--s-5);
+}
+.timeline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 72px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  padding: 0 var(--s-4);
+  border-top: 1px solid var(--line-2);
+  background: linear-gradient(rgba(10, 13, 15, 0.82), rgba(10, 13, 15, 0.96));
+  animation: fade-up 600ms var(--ease-out) 400ms both;
+}
+.tl-play {
+  width: 32px;
+  height: 32px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line-3);
+  color: var(--text);
+  transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast);
+}
+.tl-play:hover,
+.tl-play.is-on {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: var(--bg);
+}
+.tl-readout {
+  width: 168px;
+  flex: none;
+}
+.tl-date {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-stretch: 80%;
+  font-size: var(--fs-18);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+.tl-sub {
+  font-size: var(--fs-9);
+  letter-spacing: 0.12em;
+  color: var(--text-3);
+}
+.tl-track {
+  position: relative;
+  flex: 1;
+  height: 48px;
+  cursor: ew-resize;
+  touch-action: none;
+}
+.tl-trace {
+  position: absolute;
+  inset: 4px 0 8px;
+  width: 100%;
+  height: calc(100% - 12px);
+}
+.tl-frame {
+  position: absolute;
+  bottom: 0;
+  width: 1px;
+  height: 5px;
+  background: var(--text-4);
+}
+.tl-year {
+  position: absolute;
+  top: -10px;
+  font-size: var(--fs-9);
+  color: var(--text-4);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.tl-needle {
+  position: absolute;
+  top: -4px;
+  bottom: -2px;
+  width: 1px;
+  background: var(--orange);
+  box-shadow: 0 0 10px var(--orange);
+  pointer-events: none;
+  transition: left 60ms linear;
+}
+.timeline.is-drag .tl-needle {
+  transition: none;
+}
+.tl-needle-head {
+  position: absolute;
+  top: -3px;
+  left: -4px;
+  width: 9px;
+  height: 9px;
+  background: var(--orange);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+.tl-now {
+  flex: none;
+  font-size: var(--fs-10);
+  letter-spacing: 0.14em;
+  padding: 6px 10px;
+  border: 1px solid var(--line-2);
+  color: var(--text-2);
+  transition: color var(--t-fast), border-color var(--t-fast), opacity var(--t-fast);
+}
+.tl-now:hover:not(:disabled) {
+  color: var(--text);
+  border-color: var(--orange);
+}
+.tl-now:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
 /* ============================================================ boot */
 .boot {
   position: fixed;
