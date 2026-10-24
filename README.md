@@ -44,12 +44,12 @@ Replace these placeholders with commands that actually work for your project:
 1. Prerequisites and versions: Python 3.11+ (tested on 3.14), git 2.30+, Node 20+ (tested on 24)
 2. Dependency installation: `cd backend && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt`
 3. Environment setup: `cp .env.example .env` and set `OPENAI_API_KEY` (only needed for guard notes / ask-the-repo on fresh repos)
-4. Start the project: stage 1 only so far — `cd backend && .venv/bin/python -m richter.ingest https://github.com/fastapi/fastapi`
+4. Start the project: analysis CLI so far — `cd backend && .venv/bin/python -m richter.cli analyze https://github.com/fastapi/fastapi` (writes `data/models/<owner>__<repo>.json`; add `--include-tests` to parse tests/docs/examples)
 5. Run checks or tests: `cd backend && .venv/bin/python -m pytest -q`
 
 ### Current status
 
-- Working features: Stage 1 ingest (blobless clone, full history, renames); stage 2 parsers — import graph (`python -m richter.deps <repo>`) and git stats/co-change (`python -m richter.gitstats <repo>`)
+- Working features: Stage 1 ingest (blobless clone, full history, renames); stage 2 parsers — import graph (`python -m richter.deps <repo>`) and git stats/co-change (`python -m richter.gitstats <repo>`); stage 3 risk engine — blast radius, structural/human risk, magnitude, bus factor, single JSON model
 - Known limitations: Python repos only for now. First ingest of a large repo is slow (~4 min for fastapi) because rename detection lazily fetches file contents; later runs reuse the clone.
 - Libraries, APIs, and public datasets used: [FastAPI](https://fastapi.tiangolo.com), [GitPython](https://github.com/gitpython-developers/GitPython), [networkx](https://networkx.org), [OpenAI API](https://platform.openai.com). Demo repos analyzed: public GitHub repositories (fastapi, httpx, rich).
 

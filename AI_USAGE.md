@@ -10,6 +10,7 @@ No participant AI usage has been recorded yet. Replace the placeholder row as yo
 | --- | --- | --- | --- | --- | --- |
 | 2026-10-24T21:20+05:30 | Claude Code (Claude Opus 5.5) | Spec review; project scaffold; stage 1 ingest | Reviewed the project spec and suggested fixes (blobless clone, fix-ratio metric, co-change de-noising); wrote `backend/richter/ingest.py`, README overview, this log | Spec changes reviewed and approved by participant; code review pending | Ran ingest on fastapi: 7932 commits parsed |
 | 2026-10-24T21:40+05:30 | Claude Code (Claude Opus 5.5) | Stage 2: dependency + git parsers | Wrote `backend/richter/deps.py`, `backend/richter/gitstats.py` and tests | Pending participant review | pytest 5 passed; fastapi graph/history spot-checked |
+| 2026-10-24T21:28+05:30 | Claude Code (Claude Opus 5.5) | Stage 3: risk engine + JSON model | Wrote `risk.py`, `pipeline.py`, `cli.py`, tests; ran the sanity check | Pending participant review | pytest 8 passed; CLI analyze fastapi in 2.3 s |
 
 ## Template preparation
 
